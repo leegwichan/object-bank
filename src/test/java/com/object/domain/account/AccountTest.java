@@ -1,5 +1,10 @@
 package com.object.domain.account;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import com.object.domain.mock.NoInterest;
+import com.object.domain.money.Money;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,13 +17,15 @@ class AccountTest {
         @Test
         @DisplayName("객체 생성시에 원금을 null로 입력하면 예외를 발생시킨다")
         void createTest_principalIsNull_throwNullPointerException() {
-            // TODO 테스트 구현
+            Exception exception = assertThrows(NullPointerException.class, () -> Account.of(null, new NoInterest()));
+            assertEquals("[ERROR] 원금은 null이 아니어야 합니다", exception.getMessage());
         }
 
         @Test
         @DisplayName("객체 생성시에 이익 기능을 null로 입력하면 예외를 발생시킨다")
         void createTest_interestIsNull_throwNullPointerException() {
-            // TODO 테스트 구현
+            Exception exception = assertThrows(NullPointerException.class, () -> Account.of(Money.of(1_000), null));
+            assertEquals("[ERROR] 이익은 null이 아니어야 합니다", exception.getMessage());
         }
     }
 

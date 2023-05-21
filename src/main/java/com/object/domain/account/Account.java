@@ -4,6 +4,7 @@ import com.object.domain.detail.Detail;
 import com.object.domain.interest.Interest;
 import com.object.domain.money.Money;
 import com.object.dto.AccountDto;
+import com.object.exception.ExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,9 +18,9 @@ public class Account {
     private final List<Detail> details;
 
     private Account(Money principal, Interest interest) {
-        this.principal = Objects.requireNonNull(principal);
-        this.current = Objects.requireNonNull(principal);
-        this.interest = Objects.requireNonNull(interest);
+        this.principal = Objects.requireNonNull(principal, ExceptionMessage.PRINCIPAL_NOT_NULL.getMessage());
+        this.current = Objects.requireNonNull(principal, ExceptionMessage.PRINCIPAL_NOT_NULL.getMessage());
+        this.interest = Objects.requireNonNull(interest, ExceptionMessage.INTEREST_NOT_NULL.getMessage());
         this.details = new ArrayList<>();
     }
 
