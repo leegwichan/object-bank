@@ -6,6 +6,7 @@ import com.object.domain.interest.DynamicInterest;
 import com.object.domain.interest.SimpleInterest;
 import com.object.domain.money.Money;
 import com.object.dto.AccountDto;
+import com.object.view.OutputView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class AccountController {
     private static final DynamicInterest DYNAMIC_INTEREST = DynamicInterest.of(0.05);
 
     private final List<Account> accounts;
+    private final OutputView output = new OutputView();
 
     public AccountController() {
         accounts = new ArrayList<>();
@@ -31,21 +33,10 @@ public class AccountController {
     }
 
     public final void run() {
-
-        List<List<Long>> accountDetails = accounts.stream()
+        List<AccountDto> accountDtos = accounts.stream()
                 .map(account -> account.progress(YEAR))
-                .map(AccountDto::getTotalMoneys)
                 .collect(Collectors.toList());
 
-        System.out.printf("\n※ 예금 비교하기 ※ (초기 금액 : %d)\n\n", PRINCIPAL.getAmount());
-        System.out.printf(" YEAR| BASIC_INTEREST|CLASSIC_INTEREST|  LINER_INTEREST|DYNAMIC_INTEREST|\n");
-        for (int i=0; i<YEAR; i++) {
-            System.out.printf("%5d  ", i+1);
-            for (List<Long> details : accountDetails) {
-                System.out.printf("%14d   ", details.get(i));
-            }
-            System.out.print("\n");
-        }
-
+        output.printAccounts(accountDtos, PRINCIPAL.getAmount());
     }
 }
