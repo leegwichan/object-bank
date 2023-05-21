@@ -4,7 +4,7 @@ import com.object.domain.detail.Detail;
 import com.object.domain.interest.Interest;
 import com.object.domain.money.Money;
 import com.object.dto.AccountDto;
-import com.object.exception.ExceptionMessage;
+import com.object.exception.message.AccountExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -18,9 +18,9 @@ public class Account {
     private final List<Detail> details;
 
     private Account(Money principal, Interest interest) {
-        this.principal = Objects.requireNonNull(principal, ExceptionMessage.PRINCIPAL_NOT_NULL.getMessage());
-        this.current = Objects.requireNonNull(principal, ExceptionMessage.PRINCIPAL_NOT_NULL.getMessage());
-        this.interest = Objects.requireNonNull(interest, ExceptionMessage.INTEREST_NOT_NULL.getMessage());
+        this.principal = Objects.requireNonNull(principal, AccountExceptionMessage.PRINCIPAL_NOT_NULL.getMessage());
+        this.current = Objects.requireNonNull(principal, AccountExceptionMessage.PRINCIPAL_NOT_NULL.getMessage());
+        this.interest = Objects.requireNonNull(interest, AccountExceptionMessage.INTEREST_NOT_NULL.getMessage());
         this.details = new ArrayList<>();
     }
 
@@ -30,7 +30,7 @@ public class Account {
 
     public AccountDto progress(int year) {
         if (year <= 0) {
-            throw new IllegalArgumentException("[ERROR] 진행 년수는 양수이어야 합니다.");
+            throw new IllegalArgumentException(AccountExceptionMessage.PROGRESS_POSITIVE.getMessage());
         }
 
         while (details.size() < year) {
