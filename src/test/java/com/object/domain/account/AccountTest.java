@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.object.domain.mock.NoInterest;
 import com.object.domain.money.Money;
+import com.object.dto.AccountDto;
+import com.object.dto.DetailDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -36,25 +38,54 @@ class AccountTest {
         @Test
         @DisplayName("특정 년수만큼의 내역을 1회 요청하였을 때 내역을 반환한다.")
         void progressTest_doOneTime() {
-            // TODO 테스트 구현
+            long principal = 100_000;
+            Account account = Account.of(Money.of(principal), new NoInterest());
+
+            AccountDto actual = account.progress(30);
+
+            assertEquals(30, actual.getDetails().size());
+            for (DetailDto dto : actual.getDetails()) {
+                assertEquals(principal , dto.getMoney());
+            }
         }
 
         @Test
         @DisplayName("특정 년수만큼의 내역을 2회 요청하였을 때 (높은 숫자 먼저) 내역을 반환한다.")
         void progressTest_doLowerFirstHigherSecond() {
-            // TODO 테스트 구현
+            long principal = 100_000;
+            Account account = Account.of(Money.of(principal), new NoInterest());
+
+            account.progress(30);
+            AccountDto actual = account.progress(40);
+
+            assertEquals(40, actual.getDetails().size());
+            for (DetailDto dto : actual.getDetails()) {
+                assertEquals(principal , dto.getMoney());
+            }
         }
 
         @Test
         @DisplayName("특정 년수만큼의 내역을 2회 요청하였을 때 (낮은 숫자 먼저) 내역을 반환한다.")
         void progressTest_doHigherFirstLowerSecond() {
-            // TODO 테스트 구현
+            long principal = 100_000;
+            Account account = Account.of(Money.of(principal), new NoInterest());
+
+            account.progress(40);
+            AccountDto actual = account.progress(30);
+
+            assertEquals(30, actual.getDetails().size());
+            for (DetailDto dto : actual.getDetails()) {
+                assertEquals(principal , dto.getMoney());
+            }
         }
 
         @Test
-        @DisplayName("특정 년수만큼의 내역을 2회 요청하였을 때 (낮은 숫자 먼저) 내역을 반환한다.")
+        @DisplayName("progress() 에 음수를 넣었을 경우 예외를 던진다.")
         void progressTest_inputNonPositiveInt_throwIllegalArgumentException() {
-            // TODO 테스트 구현
+            Account account = Account.of(Money.of(100_000), new NoInterest());
+
+            Exception exception = assertThrows(IllegalArgumentException.class, () -> account.progress(-5));
+            assertEquals("[ERROR] 진행 년수는 양수이어야 합니다.", exception.getMessage());
         }
     }
 
