@@ -7,6 +7,10 @@ public class Money {
     private final long amount;
 
     private Money(long amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("금액은 음수가 될 수 없습니다");
+        }
+
         this.amount = amount;
     }
     public static Money of(long amount) {
@@ -18,7 +22,14 @@ public class Money {
     }
 
     public Money multiply(double multiple) {
+        if (multiple < 0) {
+            throw new IllegalArgumentException("금액에 음수를 곱할 수 없습니다");
+        }
         return new Money((long) (this.amount * multiple));
+    }
+
+    public long getAmount() {
+        return amount;
     }
 
     @Override

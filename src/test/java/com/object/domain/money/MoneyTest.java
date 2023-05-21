@@ -2,6 +2,7 @@ package com.object.domain.money;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +10,13 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class MoneyTest {
+
+    @DisplayName("금액이 음수인 경우에 예외를 던진다")
+    @Test
+    void createObjectTest_whenCreateNegativeAmount_throwIllegalArgumentException() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> Money.of(-1));
+        assertEquals("금액은 음수가 될 수 없습니다", exception.getMessage());
+    }
 
     @Nested
     @DisplayName("두 Money 객체의 동일성을 판별할 수 있다")
@@ -86,18 +94,35 @@ class MoneyTest {
         assertEquals(expected, actual);
     }
 
-    @Test
+    @Nested
     @DisplayName("Money를 특정 배수만큼 곱할 수 있다")
-    void multiply() {
-        long price = 100_000;
-        double multiple = 2.245713;
-        Money money = Money.of(price);
-        Money expected = Money.of((long) (price * multiple));
+    class MultiplyTest {
+        @Test
+        @DisplayName("금액에 양수를 곱할 수 있다")
+        void multiplyTest_multiplyPositive() {
+            long price = 100_000;
+            double multiple = 2.245713;
+            Money money = Money.of(price);
+            Money expected = Money.of((long) (price * multiple));
 
-        Money actual = money.multiply(multiple);
+            Money actual = money.multiply(multiple);
 
-        assertEquals(expected, actual);
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        @DisplayName("금액에 음수를 곱할 수 없다")
+        void multiplyTest_multiplyNegative_throwIllegalArgumentException() {
+            long price = 100_000;
+            double multiple = -2.245713;
+            Money money = Money.of(price);
+
+            Exception exception = assertThrows(IllegalArgumentException.class, () -> money.multiply(multiple));
+            assertEquals("금액에 음수를 곱할 수 없습니다", exception.getMessage());
+        }
     }
+
+
 
 
 }
