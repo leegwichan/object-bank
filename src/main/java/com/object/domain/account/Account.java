@@ -4,6 +4,7 @@ import com.object.domain.detail.Detail;
 import com.object.domain.interest.Interest;
 import com.object.domain.money.Money;
 import com.object.dto.AccountDto;
+import com.object.dto.DetailDto;
 import com.object.exception.message.AccountExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,10 @@ public class Account {
             details.add(Detail.of(interest, current, details.size()));
         }
 
-        return new AccountDto(details.stream().limit(year).map(Detail::toDto).collect(Collectors.toList()));
+        return new AccountDto(details.stream().limit(year).map(DetailDto::from).collect(Collectors.toList()));
+    }
+
+    public List<Detail> getDetails() {
+        return List.copyOf(details);
     }
 }

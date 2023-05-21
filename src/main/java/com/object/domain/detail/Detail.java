@@ -1,7 +1,6 @@
 package com.object.domain.detail;
 
 import com.object.domain.money.Money;
-import com.object.dto.DetailDto;
 
 public class Detail {
 
@@ -19,7 +18,11 @@ public class Detail {
         return new Detail(deposit, total, year);
     }
 
-    public DetailDto toDto() {
-        return new DetailDto(year, total.getAmount());
+    public long getTotal() {
+        return total.getAmount();
+    }
+
+    public int getYear() {
+        return year;
     }
 }
