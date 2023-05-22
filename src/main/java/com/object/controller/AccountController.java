@@ -37,6 +37,6 @@ public class AccountController {
                 .map(account -> account.progress(YEAR))
                 .collect(Collectors.toList());
 
-        output.printAccounts(accountDtos, PRINCIPAL.getAmount());
+        output.printAccounts(accountDtos);
     }
 }

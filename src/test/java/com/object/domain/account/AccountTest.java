@@ -44,7 +44,7 @@ class AccountTest {
 
             AccountDto actual = account.progress(30);
 
-            assertEquals(30, actual.getDetails().size());
+            assertEquals(31, actual.getDetails().size());
             for (DetailDto dto : actual.getDetails()) {
                 assertEquals(principal , dto.getMoney());
             }
@@ -59,7 +59,7 @@ class AccountTest {
             account.progress(30);
             AccountDto actual = account.progress(40);
 
-            assertEquals(40, actual.getDetails().size());
+            assertEquals(41, actual.getDetails().size());
             for (DetailDto dto : actual.getDetails()) {
                 assertEquals(principal , dto.getMoney());
             }
@@ -74,7 +74,7 @@ class AccountTest {
             account.progress(40);
             AccountDto actual = account.progress(30);
 
-            assertEquals(30, actual.getDetails().size());
+            assertEquals(31, actual.getDetails().size());
             for (DetailDto dto : actual.getDetails()) {
                 assertEquals(principal , dto.getMoney());
             }

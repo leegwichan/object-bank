@@ -23,6 +23,7 @@ public class Account {
         this.current = Objects.requireNonNull(principal, AccountExceptionMessage.PRINCIPAL_NOT_NULL.getMessage());
         this.interest = Objects.requireNonNull(interest, AccountExceptionMessage.INTEREST_NOT_NULL.getMessage());
         this.details = new ArrayList<>();
+        details.add(Detail.of(principal, principal, 0));
     }
 
     public static Account of(Money principal, Interest interest) {
@@ -34,13 +35,13 @@ public class Account {
             throw new IllegalArgumentException(AccountExceptionMessage.PROGRESS_POSITIVE.getMessage());
         }
 
-        while (details.size() < year) {
+        while (details.size() < year + 1) {
             Money interest = this.interest.calculate(principal, current);
             current = current.add(interest);
             details.add(Detail.of(interest, current, details.size()));
         }
 
-        return new AccountDto(details.stream().limit(year).map(DetailDto::from).collect(Collectors.toList()));
+        return new AccountDto(details.stream().limit(year+1).map(DetailDto::from).collect(Collectors.toList()));
     }
 
     public List<Detail> getDetails() {
