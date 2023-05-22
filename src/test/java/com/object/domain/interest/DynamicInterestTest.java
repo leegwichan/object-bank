@@ -2,6 +2,7 @@ package com.object.domain.interest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.object.domain.mock.MockMoney;
 import com.object.domain.money.Money;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,11 +16,11 @@ class DynamicInterestTest {
         long current = 150_000L;
         double initialRate = 0.05;
         DynamicInterest interest = DynamicInterest.of(initialRate);
-        Money expectedFirstYear = Money.of((long) (principal * initialRate * 1));
-        Money expectedSecondYear = Money.of((long) (principal * initialRate * 2));
+        Money expectedFirstYear = new MockMoney((long) (principal * initialRate * 1));
+        Money expectedSecondYear = new MockMoney((long) (principal * initialRate * 2));
 
-        Money actualFirstYear = interest.calculate(Money.of(principal), Money.of(current));
-        Money actualSecondYear = interest.calculate(Money.of(principal), Money.of(current));
+        Money actualFirstYear = interest.calculate(new MockMoney(principal), new MockMoney(current));
+        Money actualSecondYear = interest.calculate(new MockMoney(principal), new MockMoney(current));
 
         assertEquals(expectedFirstYear, actualFirstYear);
         assertEquals(expectedSecondYear, actualSecondYear);
