@@ -1,6 +1,5 @@
 package com.object.domain.account;
 
-import com.object.domain.detail.Detail;
 import com.object.domain.interest.Interest;
 import com.object.domain.money.Money;
 import com.object.dto.AccountDto;
@@ -9,21 +8,16 @@ import com.object.exception.message.AccountExceptionMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Account {
 
     private final Money principal;
-    private Money current;
-    private Interest interest;
-    private final List<Detail> details;
+    private final Interest interest;
 
     private Account(Money principal, Interest interest) {
         this.principal = Objects.requireNonNull(principal, AccountExceptionMessage.PRINCIPAL_NOT_NULL.getMessage());
-        this.current = Objects.requireNonNull(principal, AccountExceptionMessage.PRINCIPAL_NOT_NULL.getMessage());
         this.interest = Objects.requireNonNull(interest, AccountExceptionMessage.INTEREST_NOT_NULL.getMessage());
-        this.details = new ArrayList<>();
-        details.add(Detail.of(principal, principal, 0));
+
     }
 
     public static Account of(Money principal, Interest interest) {
@@ -35,16 +29,15 @@ public class Account {
             throw new IllegalArgumentException(AccountExceptionMessage.PROGRESS_POSITIVE.getMessage());
         }
 
-        while (details.size() < year + 1) {
+        List<DetailDto> detailDtos = new ArrayList<>();
+        detailDtos.add(new DetailDto(0, principal.getAmount()));
+        Money current = principal;
+        for (int curYear = 1; curYear <= year; curYear++) {
             Money interest = this.interest.calculate(principal, current);
             current = current.add(interest);
-            details.add(Detail.of(interest, current, details.size()));
+            detailDtos.add(new DetailDto(curYear, current.getAmount()));
         }
 
-        return new AccountDto(details.stream().limit(year+1).map(DetailDto::from).collect(Collectors.toList()));
-    }
-
-    public List<Detail> getDetails() {
-        return List.copyOf(details);
+        return new AccountDto(detailDtos);
     }
 }
