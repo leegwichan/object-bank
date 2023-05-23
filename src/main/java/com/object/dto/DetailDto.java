@@ -10,8 +10,4 @@ public class DetailDto {
 
     private final int year;
     private final long money;
-
-    public static DetailDto from(Detail detail) {
-        return new DetailDto(detail.getYear(), detail.getTotal());
-    }
 }

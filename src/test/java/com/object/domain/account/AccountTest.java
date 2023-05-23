@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.object.domain.mock.MockMoney;
 import com.object.domain.mock.NoInterest;
-import com.object.domain.money.Money;
 import com.object.dto.AccountDto;
 import com.object.dto.DetailDto;
 import org.junit.jupiter.api.DisplayName;
