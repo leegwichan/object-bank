@@ -1,6 +1,5 @@
 package com.object.dto;
 
-import com.object.domain.detail.Detail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
