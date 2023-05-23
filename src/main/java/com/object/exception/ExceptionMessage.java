@@ -1,5 +1,5 @@
 package com.object.exception;
 
-public interface ExceptionCode {
+public interface ExceptionMessage {
     String getMessage();
 }

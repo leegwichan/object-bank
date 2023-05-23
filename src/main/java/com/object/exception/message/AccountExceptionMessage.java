@@ -1,8 +1,8 @@
 package com.object.exception.message;
 
-import com.object.exception.ExceptionCode;
+import com.object.exception.ExceptionMessage;
 
-public enum AccountExceptionMessage implements ExceptionCode {
+public enum AccountExceptionMessage implements ExceptionMessage {
     PRINCIPAL_NOT_NULL("[ERROR] 원금은 null이 아니어야 합니다"),
     INTEREST_NOT_NULL("[ERROR] 이익은 null이 아니어야 합니다"),
 
