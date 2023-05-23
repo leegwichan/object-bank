@@ -4,32 +4,18 @@ import com.object.domain.money.Money;
 
 public class CompoundInterest implements Interest{
 
-    private static final int DEFAULT_PERIOD = 1;
-
     private final double rate;
-    private final int periodYear;
-    private int count = 0;
 
-    private CompoundInterest(double rate, int periodYear) {
+    private CompoundInterest(double rate) {
         this.rate = rate;
-        this.periodYear = periodYear;
-    }
-
-    public static CompoundInterest of(double rate, int periodYear) {
-        return new CompoundInterest(rate, periodYear);
     }
 
     public static CompoundInterest of (double rate) {
-        return new CompoundInterest(rate, DEFAULT_PERIOD);
+        return new CompoundInterest(rate);
     }
 
     @Override
     public Money calculate(Money principal, Money current) {
-        count++;
-        if (count % periodYear != 0) {
-            return Money.ZERO;
-        }
-
         return current.multiply(rate);
     }
 }
